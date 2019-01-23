@@ -1,15 +1,8 @@
 <!-- 相框 -->
 <template>
   <div class="container">
-    <div
-      class="bulm-wrap"
-      :style="{'transform':'translateX(-'+offset+'px)'}"
-    >
-      <div
-        v-for="(item,index) in picArr"
-        :key="index"
-        class="bulm"
-      >
+    <div class="bulm-wrap">
+      <div v-for="(item,index) in picArr" :key="index" class="bulm">
         <section>
           <div>
             <p>{{ item.t1 }}</p>
@@ -26,7 +19,6 @@
 export default {
   data() {
     return {
-      offset: 0,
       picArr: [
         {
           t1: '1',
@@ -71,18 +63,7 @@ export default {
     this.loop()
   },
   methods: {
-    loop() {
-      setInterval(() => {
-        if (this.offset < this.picArr.length * 340) {
-          this.offset += 340
-          this.picArr.push(this.picArr[0])
-          this.picArr.splice(0, 1)
-          this.offset = 0
-        } else {
-          this.offset = 0
-        }
-      }, 3000)
-    }
+    loop() {}
   }
 }
 </script>

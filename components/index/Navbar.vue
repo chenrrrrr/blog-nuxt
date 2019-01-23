@@ -18,7 +18,7 @@ import homeActive from '@/assets/img/home-active.png'
 export default {
   data() {
     return {
-      hitokoto: '一言蓄力中……',
+      hitokoto: '',
       homeImgSrc: homeDefault
     }
   },
@@ -33,12 +33,28 @@ export default {
       this.homeImgSrc = homeDefault
     },
     getHitokoto() {
-      setInterval(() => {
-        this.$axios.get(`https://v1.hitokoto.cn/?encode=json`).then(res => {
-          this.hitokoto = res.data.hitokoto
-        })
-      }, 5000)
-    }
+      this.$axios.get(`https://v1.hitokoto.cn/?encode=json`).then(res => {
+        let arr = [...res.data.hitokoto];
+        let i = 0
+        let timer = setInterval(()=>{
+          if(i<arr.length){
+            this.hitokoto+=arr[i]
+            i++
+          }else{
+            clearInterval(timer)
+            let k = 0
+            let timer2 = setInterval(()=>{
+              if(k<20){
+                this.hitokoto.indexOf('|')>-1 ? this.hitokoto = this.hitokoto.split('|')[0] : this.hitokoto += ' |'
+                k++
+              }else{
+                clearInterval(timer2)
+              }
+            },200)
+          }
+        },200)
+      })
+    },
   }
 }
 </script>
